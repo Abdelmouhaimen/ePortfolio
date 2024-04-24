@@ -4,10 +4,9 @@ import ProjectCard from "./ProjectCards";
 import Particle from "../Particle";
 import postgresql from "../../Assets/Projects/PostegreSQL.png";
 import tipe from "../../Assets/Projects/tipe.png";
-import myjobglasses from "../../Assets/Projects/myjobglasses.png";
 import reveasy from "../../Assets/Projects/reveasy.png";
 import manuel from "../../Assets/Projects/Manuel_Utilisateur.pdf";
-import mjgcertificate from "../../Assets/Projects/myjobglasses_orientation_certificate.pdf";
+
 
 
 
