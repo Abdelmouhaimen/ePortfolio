@@ -8,8 +8,8 @@ import myjobglasses from "../../Assets/Projects/myjobglasses.png";
 import reveasy from "../../Assets/Projects/reveasy.png";
 import manuel from "../../Assets/Projects/Manuel_Utilisateur.pdf";
 import mjgcertificate from "../../Assets/Projects/myjobglasses_orientation_certificate.pdf";
-import coverletter from "../../Assets/Projects/coverletter.pdf";
-import coverletterPic from "../../Assets/Projects/coverletter.jpg";
+
+
 
 function Projects() {
   return (
@@ -53,27 +53,8 @@ function Projects() {
           </Col>
 
 
-          <Col md={4} className="project-card">
-            <ProjectCard
-              imgPath={coverletterPic}
-              file={coverletter}
-              fileText="Cover Letter"
-              title="Cover Letter"
-              description="This cover letter is structured to highlight my expertise and interest in AI and Computer Vision."
-            />
-          </Col>
 
 
-                
-          <Col md={4} className="project-card">
-            <ProjectCard
-              imgPath={myjobglasses}
-              title="MyJobGlasses Certificate"
-              description="The certificate is a document designed by My Job Glasses to promote the approach of young people in their orientation. It attests to their ability to contact and meet mentors on the My Job Glasses mentoring tool to: find out more about a job or training | develop their professional network | expand their knowledge of an industry or company | get a professional opportunity such as an internship or work-study"           
-              file={mjgcertificate}
-              fileText="Certificate"
-            />
-          </Col>
 
         </Row>
       </Container>
