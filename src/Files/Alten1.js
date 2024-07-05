@@ -11,7 +11,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$
 const resumeLink =
   "https://raw.githubusercontent.com/Abdelmouhaimen/ePortfolio/main/src/Assets/Files/lette_de_motivation_alten.pdf";
 
-function ResumeNew() {
+function Alten1() {
   const [width, setWidth] = useState(1200);
 
   useEffect(() => {
@@ -56,4 +56,4 @@ function ResumeNew() {
   );
 }
 
-export default ResumeNew;
+export default Alten1;
