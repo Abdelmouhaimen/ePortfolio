@@ -11,7 +11,7 @@ import Projects from "./components/Projects/Projects";
 import Interests from "./components/Interests/Interests";
 import Civic from "./components/Civic/Civic";
 import International from "./components/International/International";
-import Alten1 from "./files/Alten1";
+import Alten1 from "./Files/Alten1";
 
 import {
   BrowserRouter as Router,
