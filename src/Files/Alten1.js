@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
-import Particle from "../Particle";
+import Particle from "../Components/Particle";
 import pdf from "../Assets/Files/lette_de_motivation_alten.pdf";
 import { AiOutlineDownload } from "react-icons/ai";
 import { Document, Page, pdfjs } from "react-pdf";
