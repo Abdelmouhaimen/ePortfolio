@@ -11,6 +11,7 @@ import Projects from "./components/Projects/Projects";
 import Interests from "./components/Interests/Interests";
 import Civic from "./components/Civic/Civic";
 import International from "./components/International/International";
+import Alten1 from "./files/Alten1";
 
 import {
   BrowserRouter as Router,
@@ -48,7 +49,8 @@ function App() {
           <Route path="/education" element={<Education />} />
           <Route path="/international" element={<International />} />
           <Route path="/civic" element={<Civic />} />
-           <Route path="/interests" element={<Interests />} />
+          <Route path="/interests" element={<Interests />} />
+          <Route path="/coverletterAltenCVesports" element={<Alten1/>} />
           <Route path="*" element={<Navigate to="/"/>} />
         </Routes>
         <Footer />
