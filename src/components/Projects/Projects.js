@@ -6,6 +6,7 @@ import postgresql from "../../Assets/Projects/PostegreSQL.png";
 import tipe from "../../Assets/Projects/tipe.png";
 import reveasy from "../../Assets/Projects/reveasy.png";
 import manuel from "../../Assets/Projects/Manuel_Utilisateur.pdf";
+import trafficlights from "../../Assets/Projects/trafficlights.png";
 
 
 
@@ -22,6 +23,18 @@ function Projects() {
           Here are a few projects I've worked on recently.
         </p>
         <Row style={{ justifyContent: "center", paddingBottom: "10px" }}>
+
+
+        <Col md={4} className="project-card">
+  <ProjectCard
+    imgPath={trafficlights}
+    title="Traffic Sign Recognition using Deep Learning"
+    description="Developed a deep learning-based model for detecting and classifying traffic signs using convolutional neural networks (CNNs). The project involved data collection via web scraping and manual acquisition, model optimization using VGG16 fine-tuning, and performance analysis with accuracy reaching 92.9%."
+    ghLink="https://github.com/Abdelmouhaimen/DL-TrafficSignClassification"
+  />
+</Col>
+
+            
         <Col md={4} className="project-card">
             <ProjectCard
               imgPath={reveasy}
