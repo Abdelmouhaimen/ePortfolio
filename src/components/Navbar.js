@@ -14,10 +14,10 @@ import {
 } from "react-icons/ai";
 
 import { CgFileDocument } from "react-icons/cg";
-import { FaEnvira } from "react-icons/fa";
-import { GiWorld } from "react-icons/gi";
+//import { FaEnvira } from "react-icons/fa";
+//import { GiWorld } from "react-icons/gi";
 import { IoMdSchool } from "react-icons/io";
-import { MdOutlineSportsEsports } from "react-icons/md";
+//import { MdOutlineSportsEsports } from "react-icons/md";
 
 
 
@@ -108,7 +108,7 @@ function NavBar() {
               </Nav.Link>
             </Nav.Item>
 
-            <Nav.Item>
+            {/*<Nav.Item>
               <Nav.Link
                 as={Link}
                 to="/international"
@@ -136,7 +136,7 @@ function NavBar() {
               >
                 <MdOutlineSportsEsports style={{ marginBottom: "2px" }} /> Sports & Interests
               </Nav.Link>
-            </Nav.Item>
+            </Nav.Item>*/}
 
             <Nav.Item className="fork-btn">
               <Button
