@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { InView } from 'react-intersection-observer';
+import { BsGithub } from "react-icons/bs";
+import { CgWebsite } from "react-icons/cg";
 
 const VerticalTimelineElement = ({
   children = '',
@@ -26,6 +28,8 @@ const VerticalTimelineElement = ({
   visible = false,
   fileText = 'Download',
   file = '',
+  ghLink = '',
+  demoLink = '',
 }) => (
   <InView {...intersectionObserverProps}>
     {({ inView, ref }) => (
@@ -40,7 +44,7 @@ const VerticalTimelineElement = ({
         style={style}
       >
         <React.Fragment>
-          <span // eslint-disable-line jsx-a11y/no-static-element-interactions
+          <span
             style={iconStyle}
             onClick={iconOnClick}
             className={classNames(
@@ -79,9 +83,28 @@ const VerticalTimelineElement = ({
             >
               {date}
             </span>
-            {/* Download Button - Conditionally rendered */}
+
+            {/* GitHub Button */}
+            {ghLink && (
+              <a href={ghLink} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', marginRight: '10px' }}>
+                <button type="button" className="download-button">
+                  <BsGithub /> &nbsp; GitHub
+                </button>
+              </a>
+            )}
+
+            {/* Demo Button */}
+            {demoLink && (
+              <a href={demoLink} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                <button type="button" className="download-button">
+                  <CgWebsite /> &nbsp; Demo
+                </button>
+              </a>
+            )}
+
+            {/* File Download Button */}
             {file && (
-              <a href={file} download style={{ textDecoration: 'none' }}>
+              <a href={file} download style={{ textDecoration: 'none', marginLeft: '10px' }}>
                 <button type="button" className="download-button">
                   {fileText}
                 </button>
@@ -122,6 +145,8 @@ VerticalTimelineElement.propTypes = {
   }),
   fileText: PropTypes.string,
   file: PropTypes.string,
+  ghLink: PropTypes.string,
+  demoLink: PropTypes.string,
 };
 
 export default VerticalTimelineElement;
