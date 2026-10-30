@@ -512,6 +512,9 @@ section[id] {
   gap: 9px;
   align-items: center;
 }
+.stage-topline > span:only-child {
+  margin-left: auto;
+}
 .status-dot {
   width: 5px;
   height: 5px;

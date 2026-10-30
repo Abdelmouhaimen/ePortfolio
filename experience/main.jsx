@@ -537,9 +537,6 @@ function App() {
             </div>
             <Scene state={state} />
             <div className="stage-topline">
-              <span>
-                <i className="status-dot" /> BASED IN PARIS, FRANCE
-              </span>
               <span>COMPUTER VISION × REAL-WORLD AI</span>
             </div>
             <div className="scene-coordinate" aria-hidden="true">
@@ -1038,7 +1035,7 @@ function App() {
         <a className="footer-brand" href="#intro">
           <Mark /> Abdelmouhaimen Sarhane
         </a>
-        <span>PARIS, FRANCE · © {new Date().getFullYear()}</span>
+        <span>© {new Date().getFullYear()}</span>
         <a href="#intro">Back to the top ↑</a>
       </footer>
       <ProjectDialog project={selected} onClose={closeProject} />
