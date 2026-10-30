@@ -489,7 +489,7 @@ function App() {
           id="main-nav"
         >
           <a href="#work" onClick={navigate}>
-            Selected work <span>04</span>
+            Selected work
           </a>
           <a href="#experience" onClick={navigate}>
             Experience
