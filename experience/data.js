@@ -63,6 +63,7 @@ export const chapters = [
 export const projects = [
   {
     id: "manysight",
+    period: { start: "2026" },
     title: "ManySight",
     type: "Independent · Open source",
     category: ["Vision", "Agents", "Geometry"],
@@ -86,6 +87,7 @@ export const projects = [
   },
   {
     id: "sotiby",
+    period: { start: "2026-10", ongoing: true },
     title: "Sotiby",
     type: "Co-founder · Software & ML Engineer",
     category: ["Agents", "Products"],
@@ -106,6 +108,7 @@ export const projects = [
   },
   {
     id: "pedestrian",
+    period: { start: "2025-03", end: "2025-07" },
     title: "Reading pedestrian behaviour",
     type: "Research internship · Renault / Ampere",
     category: ["Vision", "Research"],
@@ -124,6 +127,7 @@ export const projects = [
   },
   {
     id: "compressed-camera",
+    period: { start: "2024-10", end: "2025-03" },
     title: "A camera that sends less",
     type: "Computer vision project · IRIT",
     category: ["Vision", "Research"],
@@ -162,6 +166,7 @@ export const projects = [
   },
   {
     id: "robotics",
+    period: { start: "2026-08", end: "2026-09" },
     title: "An arm on the workbench",
     type: "Personal · Hands-on experiments",
     category: ["Vision"],
@@ -179,6 +184,7 @@ export const projects = [
   },
   {
     id: "satellite",
+    period: { start: "2024-06", end: "2024-09" },
     title: "Water, seen from orbit",
     type: "Deep learning internship · GET-OMP / CNRS",
     category: ["Vision", "Research"],
@@ -201,6 +207,7 @@ export const projects = [
   },
   {
     id: "compression",
+    period: { start: "2023-06", end: "2023-07" },
     title: "Compute on compressed data",
     type: "Research · ENAC · ICT4S 2024",
     category: ["Research"],
@@ -280,6 +287,7 @@ export const projects = [
   },
   {
     id: "retail",
+    period: { start: "2024" },
     title: "Customer behaviour, in space",
     type: "Independent · Vision prototype",
     category: ["Vision", "Geometry"],
@@ -424,7 +432,7 @@ export const projects = [
 
 export const experience = [
   {
-    date: "SEP 2025 — PRESENT",
+    period: { start: "2025-09", ongoing: true },
     company: "Parrot Drones",
     role: "Computer Vision & Embedded Deep Learning Engineer",
     detail:
@@ -432,7 +440,7 @@ export const experience = [
     tags: ["Perception", "Embedded ML", "C++"],
   },
   {
-    date: "MAR — JUL 2025",
+    period: { start: "2025-03", end: "2025-07" },
     company: "Renault Group / Ampere",
     role: "AI Research · Semantic Scene Perception",
     detail:
@@ -440,7 +448,7 @@ export const experience = [
     tags: ["Applied research", "Foundation models"],
   },
   {
-    date: "OCT 2024 — MAR 2025",
+    period: { start: "2024-10", end: "2025-03" },
     company: "IRIT",
     role: "Computer Vision & Embedded Systems Developer",
     detail:
@@ -448,7 +456,7 @@ export const experience = [
     tags: ["Compressed sensing", "Deep learning"],
   },
   {
-    date: "JUN — SEP 2024",
+    period: { start: "2024-06", end: "2024-09" },
     company: "GET-OMP / CNRS",
     role: "Deep Learning Intern · Satellite Image Processing",
     detail:
@@ -456,7 +464,7 @@ export const experience = [
     tags: ["Earth observation", "Segmentation"],
   },
   {
-    date: "JUN — JUL 2023",
+    period: { start: "2023-06", end: "2023-07" },
     company: "ENAC",
     role: "HPC & Data Analysis Intern",
     detail:

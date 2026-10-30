@@ -48,6 +48,33 @@ const External = ({ href, children, className = "" }) => (
   </a>
 );
 
+const monthYear = new Intl.DateTimeFormat("en-GB", {
+  month: "short",
+  year: "numeric",
+  timeZone: "UTC",
+});
+const formatPeriodDate = (value) =>
+  value.length === 4
+    ? value
+    : monthYear.format(new Date(`${value}-01T00:00:00Z`));
+
+function Period({ period, className = "" }) {
+  if (!period?.start) return null;
+  return (
+    <span className={`date-range ${className}`}>
+      <time dateTime={period.start}>{formatPeriodDate(period.start)}</time>
+      {period.ongoing ? (
+        " — Present"
+      ) : period.end ? (
+        <>
+          {" — "}
+          <time dateTime={period.end}>{formatPeriodDate(period.end)}</time>
+        </>
+      ) : null}
+    </span>
+  );
+}
+
 function useMotionPreference() {
   const [reduced, setReduced] = useState(
     () => window.matchMedia("(prefers-reduced-motion: reduce)").matches,
@@ -249,7 +276,10 @@ function ProjectDialog({ project, onClose }) {
           title={project.title}
         />
         <div className="dialog-copy">
-          <span className="eyebrow">{project.type}</span>
+          <div className="project-meta">
+            <span className="eyebrow">{project.type}</span>
+            <Period period={project.period} className="project-date" />
+          </div>
           <h2 id="project-title">{project.title}</h2>
           <p className="dialog-summary">{project.summary}</p>
           <div className="project-tags">
@@ -676,6 +706,10 @@ function App() {
                       <br />
                       perception at Parrot.
                     </strong>
+                    <Period
+                      period={experience[0].period}
+                      className="note-date"
+                    />
                     <div className="note-divider" />
                     <span className="eyebrow">BUILDING INDEPENDENTLY</span>
                     <p>
@@ -732,9 +766,12 @@ function App() {
                   title={project.title}
                 />
                 <div className="featured-copy">
-                  <span className="eyebrow">
-                    0{index + 1} / {project.kicker}
-                  </span>
+                  <div className="project-meta">
+                    <span className="eyebrow">
+                      0{index + 1} / {project.kicker}
+                    </span>
+                    <Period period={project.period} className="project-date" />
+                  </div>
                   <div className="featured-title">
                     <h3>{project.title}</h3>
                     <span className="round-arrow">
@@ -789,7 +826,10 @@ function App() {
                 </span>
                 <span className="row-name">
                   <strong>{project.title}</strong>
-                  <span>{project.type}</span>
+                  <span className="row-meta">
+                    <span>{project.type}</span>
+                    <Period period={project.period} className="project-date" />
+                  </span>
                 </span>
                 <span className="row-category">
                   {project.category.join(" / ")}
@@ -830,7 +870,7 @@ function App() {
               <article className="timeline-item" key={item.company}>
                 <div className="timeline-date">
                   <i className={index === 0 ? "is-current" : ""} />
-                  <span>{item.date}</span>
+                  <Period period={item.period} />
                 </div>
                 <div className="timeline-company">
                   <h3>{item.company}</h3>
@@ -854,7 +894,9 @@ function App() {
               <p>
                 Engineering degree · Informatique et Télécommunications
                 <br />
-                Image & Multimedia specialisation · 2022–2025
+                Image & Multimedia specialisation
+                <br />
+                <Period period={{ start: "2022-09", end: "2025-10" }} />
               </p>
             </div>
             <div>
@@ -929,7 +971,9 @@ function App() {
           <div className="publication">
             <span className="publication-mark">↗</span>
             <div>
-              <p className="eyebrow">CO-AUTHORED / ICT4S 2024</p>
+              <p className="eyebrow">
+                CO-AUTHORED / ICT4S · <Period period={{ start: "2024-06" }} />
+              </p>
               <h3>
                 Energy Efficient Matrix Computations
                 <br />

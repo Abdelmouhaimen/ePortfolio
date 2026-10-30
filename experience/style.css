@@ -895,6 +895,53 @@ section[id] {
   font-size: 8px;
   color: #496468;
 }
+.project-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+}
+.project-meta .eyebrow {
+  font-size: 8px;
+  color: #496468;
+}
+.date-range {
+  font-variant-numeric: tabular-nums;
+}
+.project-date {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 550;
+  line-height: 1.6;
+  color: #48636a;
+  white-space: nowrap;
+}
+.project-meta > .project-date {
+  padding: 3px 9px;
+  border: 1px solid #ccd9d5;
+  border-radius: 99px;
+}
+.row-name > .row-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+}
+.row-meta > .project-date {
+  border-left: 1px solid #b4c6c1;
+  padding-left: 12px;
+}
+.note-date {
+  display: block;
+  margin-top: 9px;
+  font-size: 7px;
+  line-height: 1.6;
+  color: #fff;
+}
+.dialog-copy > .project-meta {
+  margin-bottom: 4px;
+}
 .featured-title {
   display: flex;
   align-items: center;
