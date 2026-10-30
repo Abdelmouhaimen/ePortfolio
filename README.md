@@ -1,6 +1,6 @@
 # Abdelmouhaimen Sarhane — interactive portfolio
 
-A continuous 3D field guide to computer vision, physical AI, spatial intelligence, machine learning, and voice agents. Blue / white / hot-pink art direction, custom geometry, GLSL shaders, scroll-driven scenes, and an editorial project library.
+A continuous 3D field guide to computer vision, physical AI, spatial intelligence, machine learning, and voice agents. Electric blue / graphite / cantaloupe-orange art direction, custom geometry, GLSL shaders, scroll-driven scenes, and an editorial project library.
 
 ## Run
 
@@ -36,7 +36,8 @@ The original source and assets remain in `src/`. Its pre-redesign commit is pres
 
 - `experience/data.js` — project case studies, career timeline, skill groups, and chapter copy.
 - `experience/main.jsx` — page structure, filters, accessible dialogs, motion preference, and scroll coordination.
-- `experience/scene.js` — procedural drone, exploded view, spatial scene, custom shaders, learning core, and radial voice waveform.
+- `experience/scene.js` — continuous scene, custom shaders, learning core, and radial voice waveform.
+- `experience/drone.js` — bevelled airframe, carbon spars, compact motors, stereo sensors, and gimbal camera.
 - `experience/style.css` — design system and responsive layouts.
 - `docs/DESIGN.md` — art direction, content safeguards, and interaction design.
 - `docs/RESEARCH.md` — portfolio/UI guidance consulted before implementation and installed skills.

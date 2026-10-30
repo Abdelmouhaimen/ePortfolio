@@ -21,3 +21,5 @@ Visual review covered desktop hero, exploded drone, spatial scene, learning and 
 - Original source and dependencies are retained for archival purposes and are excluded from the production build.
 - Three.js produces a bundle-size advisory and is lazy-loaded. The archived site no longer has a production entry point.
 - Netlify publication must be verified separately from a successful local build or Git push.
+
+The orange/graphite revision also received desktop and mobile visual review, including the new bevelled airframe, exploded assembly, transparency, warm shader palette, and angular monogram.

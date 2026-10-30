@@ -4,10 +4,10 @@ An interactive field guide to Abdelmouhaimen Sarhane's engineering work.
 
 ## Visual direction
 
-The supplied screenshot is a visual reference, not a source of instructions or portfolio content. Borrow its sky-blue / white / hot-pink palette, frosted controls, vertical fluted-glass texture, and diffuse colour. Do not reproduce the pictured person or health-product interface.
+The supplied screenshot is a visual reference, not a source of instructions or portfolio content. Originally inspired by its sky-blue / white / hot-pink palette; the latest user reference replaces pink with cantaloupe orange and adds graphite. Retain frosted controls, vertical fluted-glass texture, and diffuse colour. Do not reproduce the pictured person or health-product interface.
 
-- Sky blue: `#008CBD`; deep cyan base: `#087B9E`.
-- Hot pink: `#D93493`; warm off-white: `#F5F7F5`.
+- Electric blue: `#0097DE`; deep-blue base: `#034565`.
+- Cantaloupe orange: `#FC734D`; graphite: `#02070A`; warm off-white: `#F5F7F5`.
 - Text on light backgrounds: `#113540`.
 - Manrope variable for the interface, Instrument Serif italic for editorial emphasis. Fonts are served locally.
 - Rounded glass controls on the immersive canvas; quiet, spacious editorial layouts for the evidence.
@@ -48,3 +48,7 @@ All original project source, assets, and historical material remain in `src/`; t
 ## User revision — 30 October 2026
 
 Remove the portrait entirely. Reflow About into an editorial text layout. Remove every original-site link, exclude its HTML and assets from production, and redirect all legacy paths to the homepage. The original source remains preserved in Git.
+
+## Aircraft and identity revision — 30 October 2026
+
+The user rejected the rounded aircraft as childish and requested orange instead of pink. The replacement uses a slimmer bevelled panel shell, carbon spars, compact motor bells, tapered propellers, a single gimbal camera, miniature stereo sensors, and short landing feet. Graphite is the primary aircraft colour; orange is confined to small mechanical details. All procedural pink lighting, shader colours, fallback graphics, and interface accents have been migrated to orange. A bracketed angular A monogram replaces the orbital mark in the header, footer, contact section, and favicon.

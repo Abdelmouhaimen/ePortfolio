@@ -24,27 +24,18 @@ const Mark = () => (
     viewBox="0 0 48 48"
     fill="none"
   >
-    <ellipse
-      cx="24"
-      cy="24"
-      rx="19"
-      ry="8"
+    <path
+      d="M3 15V3h12M45 33v12H33"
       stroke="currentColor"
-      strokeWidth="1.5"
-      transform="rotate(-45 24 24)"
+      strokeWidth="1.25"
+      opacity=".45"
     />
-    <ellipse
-      cx="24"
-      cy="24"
-      rx="19"
-      ry="8"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      transform="rotate(45 24 24)"
-    />
-    <circle cx="24" cy="24" r="3" fill="currentColor" />
+    <path d="M8 36 21 9h6l13 27h-8L24 18l-8 18Z" fill="currentColor" />
+    <path d="M18 29h12" stroke="#FC734D" strokeWidth="3" />
+    <path d="M37 7h4v4h-4z" fill="#FC734D" />
   </svg>
 );
+
 const External = ({ href, children, className = "" }) => (
   <a
     className={className}
@@ -508,7 +499,7 @@ function App() {
             data-chapter={activeChapter}
           >
             <div className="atmosphere" aria-hidden="true">
-              <div className="color-field field-pink" />
+              <div className="color-field field-orange" />
               <div className="color-field field-blue" />
               <div className="color-field field-white" />
               <div className="fluted-glass" />

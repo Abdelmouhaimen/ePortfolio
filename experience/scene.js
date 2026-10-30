@@ -1,8 +1,8 @@
 import * as THREE from "three";
+import { createDrone } from "./drone";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
 
-const clamp = THREE.MathUtils.clamp;
 const mix = THREE.MathUtils.lerp;
 const ease = (a, b, value) => THREE.MathUtils.smoothstep(value, a, b);
 
@@ -23,7 +23,7 @@ export function createExperience(canvas, state, onReady, onFailure) {
   }
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.6));
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.25;
+  renderer.toneMappingExposure = 1.03;
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 100);
   camera.position.set(0, 1.3, 10);
@@ -33,14 +33,14 @@ export function createExperience(canvas, state, onReady, onFailure) {
   scene.environment = environment.texture;
   room.dispose();
   pmrem.dispose();
-  scene.add(new THREE.AmbientLight(0xd5f6ff, 1.5));
-  const key = new THREE.DirectionalLight(0xffffff, 4.2);
+  scene.add(new THREE.AmbientLight(0xd5edff, 0.85));
+  const key = new THREE.DirectionalLight(0xffffff, 3.0);
   key.position.set(-3, 5, 5);
-  const pinkLight = new THREE.PointLight(0xff298c, 55, 16, 2);
-  pinkLight.position.set(2, -1, 3);
-  const cyanLight = new THREE.PointLight(0x60efff, 65, 16, 2);
+  const orangeLight = new THREE.PointLight(0xff8a55, 20, 16, 2);
+  orangeLight.position.set(2, -1, 3);
+  const cyanLight = new THREE.PointLight(0x52b8ff, 40, 16, 2);
   cyanLight.position.set(-4, 3, -2);
-  scene.add(key, pinkLight, cyanLight);
+  scene.add(key, orangeLight, cyanLight);
 
   // A screen-space shader adds slow light refraction behind every chapter.
   const atmosphereMaterial = new THREE.ShaderMaterial({
@@ -58,7 +58,7 @@ export function createExperience(canvas, state, onReady, onFailure) {
         float flow=sin(p.x*2.0+p.y*1.8+uTime*.12+uChapter*.6)*.5+.5;
         float ripple=sin(length(p-uPointer*.25)*5.0-uTime*.25)*.5+.5;
         float flutes=pow(sin(vUv.x*360.0+flow*4.0)*.5+.5,8.0);
-        vec3 col=mix(vec3(.03,.65,.85),vec3(.96,.08,.5),flow);
+        vec3 col=mix(vec3(.03,.65,.85),vec3(.99,.24,.08),flow);
         gl_FragColor=vec4(col,(.06+flutes*.08)*ripple);
         #include <tonemapping_fragment>
         #include <colorspace_fragment>
@@ -75,45 +75,77 @@ export function createExperience(canvas, state, onReady, onFailure) {
   atmosphere.renderOrder = -100;
   scene.add(atmosphere);
 
+  const weavePixels = new Uint8Array(32 * 32 * 4);
+  for (let y = 0; y < 32; y++)
+    for (let x = 0; x < 32; x++) {
+      const i = (y * 32 + x) * 4;
+      const twill = (Math.floor(x / 2) + Math.floor(y / 2)) % 4 < 2;
+      const value =
+        (twill ? 162 : 126) + Math.sin((twill ? x : y) * Math.PI) * 9;
+      weavePixels.set([value, value, value, 255], i);
+    }
+  const weave = new THREE.DataTexture(weavePixels, 32, 32, THREE.RGBAFormat);
+  weave.wrapS = weave.wrapT = THREE.RepeatWrapping;
+  weave.repeat.set(4, 4);
+  weave.magFilter = THREE.LinearFilter;
+  weave.needsUpdate = true;
   const materials = {
     shell: new THREE.MeshPhysicalMaterial({
-      color: 0xe83b99,
-      metalness: 0.65,
-      roughness: 0.21,
-      clearcoat: 1,
-      clearcoatRoughness: 0.13,
-      iridescence: 0.6,
-      iridescenceIOR: 1.4,
+      color: 0x28323c,
+      metalness: 0.28,
+      roughness: 0.42,
+      envMapIntensity: 0.65,
+      clearcoat: 0.25,
+      clearcoatRoughness: 0.3,
+      flatShading: false,
     }),
     white: new THREE.MeshPhysicalMaterial({
-      color: 0xe1f4f7,
-      metalness: 0.62,
-      roughness: 0.18,
-      clearcoat: 1,
+      color: 0xb9c5cc,
+      metalness: 0.3,
+      roughness: 0.35,
+      clearcoat: 0.2,
     }),
     dark: new THREE.MeshPhysicalMaterial({
-      color: 0x142739,
-      metalness: 0.7,
-      roughness: 0.25,
-      clearcoat: 1,
+      color: 0x10171e,
+      metalness: 0.3,
+      roughness: 0.48,
+      clearcoat: 0.2,
     }),
     silver: new THREE.MeshStandardMaterial({
-      color: 0x809ca9,
-      metalness: 0.9,
-      roughness: 0.22,
+      color: 0x7c8791,
+      metalness: 0.75,
+      roughness: 0.32,
+    }),
+    carbon: new THREE.MeshStandardMaterial({
+      color: 0x171e24,
+      metalness: 0.22,
+      roughness: 0.5,
+      bumpMap: weave,
+      bumpScale: 0.009,
+      envMapIntensity: 0.8,
+    }),
+    board: new THREE.MeshStandardMaterial({
+      color: 0x153337,
+      metalness: 0.2,
+      roughness: 0.48,
+    }),
+    accent: new THREE.MeshStandardMaterial({
+      color: 0xfc734d,
+      metalness: 0.38,
+      roughness: 0.32,
     }),
     cyan: new THREE.MeshStandardMaterial({
-      color: 0x3fe2f5,
-      emissive: 0x03aabb,
-      emissiveIntensity: 1.4,
-      metalness: 0.3,
-      roughness: 0.16,
+      color: 0x3db9ef,
+      emissive: 0x0383bb,
+      emissiveIntensity: 0.8,
+      metalness: 0.2,
+      roughness: 0.24,
     }),
     lens: new THREE.MeshPhysicalMaterial({
-      color: 0x052d51,
-      metalness: 0.8,
-      roughness: 0.05,
-      iridescence: 1,
+      color: 0x021b2b,
+      metalness: 0.45,
+      roughness: 0.08,
+      iridescence: 0.18,
       clearcoat: 1,
     }),
     ghost: new THREE.MeshPhysicalMaterial({
@@ -133,254 +165,9 @@ export function createExperience(canvas, state, onReady, onFailure) {
     return object;
   };
   const rounded = (w, h, d, r = 0.08) => new RoundedBoxGeometry(w, h, d, 3, r);
-  const rod = (from, to, radius, material, parent) => {
-    const a = new THREE.Vector3(...from),
-      b = new THREE.Vector3(...to);
-    const object = mesh(
-      new THREE.CylinderGeometry(radius, radius, a.distanceTo(b), 16),
-      material,
-      parent,
-    );
-    object.position.copy(a).add(b).multiplyScalar(0.5);
-    object.quaternion.setFromUnitVectors(
-      new THREE.Vector3(0, 1, 0),
-      b.sub(a).normalize(),
-    );
-    return object;
-  };
-  const drone = new THREE.Group();
+  const { drone, shell, board, underside, gimbal, arms, rotors, hoverables } =
+    createDrone(materials);
   scene.add(drone);
-  const shell = new THREE.Group();
-  drone.add(shell);
-  const fuselage = mesh(
-    new THREE.SphereGeometry(1, 64, 32),
-    materials.shell,
-    shell,
-  );
-  fuselage.scale.set(0.7, 0.25, 1.02);
-  const canopy = mesh(
-    new THREE.SphereGeometry(1, 48, 24),
-    materials.white,
-    shell,
-    0,
-    0.115,
-    -0.04,
-  );
-  canopy.scale.set(0.58, 0.21, 0.8);
-  const cap = mesh(
-    rounded(0.43, 0.07, 0.65),
-    materials.dark,
-    shell,
-    0,
-    0.3,
-    -0.05,
-  );
-  for (let i = 0; i < 8; i++)
-    mesh(
-      rounded(0.29, 0.012, 0.018, 0.004),
-      materials.silver,
-      shell,
-      0,
-      0.34,
-      -0.3 + i * 0.06,
-    );
-  for (const side of [-1, 1]) {
-    mesh(
-      rounded(0.025, 0.035, 0.6, 0.01),
-      materials.cyan,
-      shell,
-      side * 0.57,
-      0.14,
-      0.03,
-    );
-    for (const end of [-1, 1]) {
-      const screw = mesh(
-        new THREE.CylinderGeometry(0.035, 0.035, 0.018, 12),
-        materials.dark,
-        shell,
-        side * 0.42,
-        0.22,
-        end * 0.5,
-      );
-      screw.rotation.z = side * 0.2;
-    }
-  }
-  const board = new THREE.Group();
-  drone.add(board);
-  mesh(rounded(0.85, 0.05, 1.1, 0.03), materials.dark, board);
-  mesh(rounded(0.34, 0.065, 0.36, 0.02), materials.silver, board, 0, 0.06, 0);
-  for (let i = 0; i < 12; i++) {
-    mesh(
-      rounded(0.035, 0.018, 0.12, 0.004),
-      materials.cyan,
-      board,
-      -0.35 + i * 0.063,
-      0.044,
-      0.32,
-    );
-  }
-  const underside = new THREE.Group();
-  drone.add(underside);
-  const bottom = mesh(
-    new THREE.SphereGeometry(1, 48, 24),
-    materials.dark,
-    underside,
-    0,
-    -0.15,
-    0,
-  );
-  bottom.scale.set(0.61, 0.2, 0.88);
-  for (const side of [-1, 1]) {
-    rod(
-      [side * 0.4, -0.25, 0.45],
-      [side * 0.61, -0.72, 0.5],
-      0.037,
-      materials.silver,
-      underside,
-    );
-    rod(
-      [side * 0.4, -0.25, -0.5],
-      [side * 0.61, -0.72, -0.55],
-      0.037,
-      materials.silver,
-      underside,
-    );
-    const skid = mesh(
-      rounded(0.07, 0.065, 1.5, 0.025),
-      materials.dark,
-      underside,
-      side * 0.61,
-      -0.74,
-      0,
-    );
-    skid.rotation.x = -0.02;
-  }
-  const gimbal = new THREE.Group();
-  drone.add(gimbal);
-  mesh(rounded(0.8, 0.31, 0.34, 0.12), materials.white, gimbal, 0, -0.25, 0.95);
-  const lenses = [];
-  for (const side of [-1, 1]) {
-    const ring = mesh(
-      new THREE.CylinderGeometry(0.13, 0.13, 0.12, 32),
-      materials.dark,
-      gimbal,
-      side * 0.23,
-      -0.25,
-      1.14,
-    );
-    ring.rotation.x = Math.PI / 2;
-    const lens = mesh(
-      new THREE.CylinderGeometry(0.095, 0.095, 0.013, 32),
-      materials.lens,
-      gimbal,
-      side * 0.23,
-      -0.25,
-      1.21,
-    );
-    lens.rotation.x = Math.PI / 2;
-    lenses.push(lens);
-    mesh(
-      new THREE.SphereGeometry(0.024, 12, 8),
-      materials.cyan,
-      gimbal,
-      side * 0.23 - 0.025,
-      -0.21,
-      1.22,
-    );
-  }
-  const arms = [],
-    rotors = [];
-  const bladeShape = new THREE.Shape();
-  bladeShape.moveTo(0, -0.04);
-  bladeShape.bezierCurveTo(0.28, -0.16, 0.7, -0.12, 0.84, -0.02);
-  bladeShape.bezierCurveTo(0.92, 0.03, 0.79, 0.16, 0.65, 0.13);
-  bladeShape.lineTo(0, 0.04);
-  bladeShape.closePath();
-  const bladeGeo = new THREE.ExtrudeGeometry(bladeShape, {
-    depth: 0.022,
-    bevelEnabled: true,
-    bevelSegments: 2,
-    steps: 1,
-    bevelSize: 0.012,
-    bevelThickness: 0.008,
-  });
-  bladeGeo.rotateX(-Math.PI / 2);
-  for (const sx of [-1, 1])
-    for (const sz of [-1, 1]) {
-      const arm = new THREE.Group();
-      drone.add(arm);
-      const end = [sx * 1.34, 0, sz * 1.08];
-      rod([sx * 0.38, -0.08, sz * 0.42], end, 0.1, materials.shell, arm);
-      rod(
-        [sx * 0.4, 0, sz * 0.45],
-        [sx * 1.34, 0.08, sz * 1.08],
-        0.025,
-        materials.silver,
-        arm,
-      );
-      mesh(
-        new THREE.CylinderGeometry(0.18, 0.16, 0.23, 28),
-        materials.dark,
-        arm,
-        ...end,
-      );
-      mesh(
-        new THREE.CylinderGeometry(0.16, 0.16, 0.065, 28),
-        materials.silver,
-        arm,
-        end[0],
-        0.12,
-        end[2],
-      );
-      const rotor = new THREE.Group();
-      rotor.position.set(end[0], 0.2, end[2]);
-      arm.add(rotor);
-      mesh(
-        new THREE.CylinderGeometry(0.08, 0.11, 0.08, 20),
-        materials.shell,
-        rotor,
-      );
-      for (const angle of [0, Math.PI]) {
-        const blade = mesh(bladeGeo, materials.dark, rotor);
-        blade.rotation.y = angle;
-      }
-      const disk = mesh(
-        new THREE.RingGeometry(0.12, 0.84, 48),
-        new THREE.MeshBasicMaterial({
-          color: 0xc1f8ff,
-          transparent: true,
-          opacity: 0.055,
-          side: THREE.DoubleSide,
-          depthWrite: false,
-        }),
-        rotor,
-        0,
-        0.01,
-        0,
-      );
-      disk.rotation.x = -Math.PI / 2;
-      arms.push({ group: arm, sx, sz });
-      rotors.push(rotor);
-    }
-
-  const halo = mesh(
-    new THREE.TorusGeometry(2.28, 0.008, 8, 140),
-    new THREE.MeshBasicMaterial({
-      color: 0xc2f7ff,
-      transparent: true,
-      opacity: 0.42,
-      depthWrite: false,
-    }),
-    drone,
-    0,
-    -0.7,
-    0,
-  );
-  halo.rotation.x = Math.PI / 2;
-  const halo2 = halo.clone();
-  halo2.scale.setScalar(1.22);
-  halo2.position.y = -0.8;
-  drone.add(halo2);
 
   // Local shader: iridescent, flowing field. Also becomes the learning core.
   const fieldMaterial = new THREE.ShaderMaterial({
@@ -413,8 +200,8 @@ export function createExperience(canvas, state, onReady, onFailure) {
       void main(){
         float fresnel=pow(1.0-abs(dot(normalize(vNormal),normalize(vView))),2.0);
         float band=sin(vPos.y*9.0+vPos.x*4.0+uTime*.6+uPointer.x)*.5+.5;
-        vec3 col=mix(vec3(.025,.1,.25),vec3(.91,.045,.38),band);
-        col=mix(col,vec3(.3,.95,1.0),fresnel*.9);
+        vec3 col=mix(vec3(.012,.04,.09),vec3(1.0,.24,.075),band);
+        col=mix(col,vec3(.18,.62,1.0),fresnel*.9);
         float fine=pow(sin(vPos.y*65.0-uTime*.2)*.5+.5,14.0);
         gl_FragColor=vec4(col+fine*.10,uOpacity);
         #include <tonemapping_fragment>
@@ -490,7 +277,7 @@ export function createExperience(canvas, state, onReady, onFailure) {
     const person = new THREE.Group();
     mesh(
       new THREE.CapsuleGeometry(0.06, 0.2, 3, 8),
-      i % 2 ? materials.shell : materials.cyan,
+      i % 2 ? materials.accent : materials.cyan,
       person,
       0,
       -0.38,
@@ -553,7 +340,7 @@ export function createExperience(canvas, state, onReady, onFailure) {
     const orbit = mesh(
       new THREE.TorusGeometry(1.8 + i * 0.12, 0.006, 5, 128),
       new THREE.MeshBasicMaterial({
-        color: i === 1 ? 0xff78b9 : 0xa6f5ff,
+        color: i === 1 ? 0xfc734d : 0xa6f5ff,
         transparent: true,
         opacity: 0.42,
       }),
@@ -610,7 +397,6 @@ export function createExperience(canvas, state, onReady, onFailure) {
 
   const raycaster = new THREE.Raycaster();
   const pointer = new THREE.Vector2(9, 9);
-  const hoverables = [fuselage, cap, ...lenses];
   let width = 0,
     height = 0,
     visible = true,
@@ -761,8 +547,8 @@ export function createExperience(canvas, state, onReady, onFailure) {
       motion &&
       drone.visible &&
       raycaster.intersectObjects(hoverables, false).length > 0;
-    materials.shell.emissive.setHex(hovered ? 0x6b133f : 0x000000);
-    materials.shell.emissiveIntensity = 0.35;
+    materials.shell.emissive.setHex(hovered ? 0x3a1a10 : 0x000000);
+    materials.shell.emissiveIntensity = 0.15;
     renderer.render(scene, camera);
   }
   try {
@@ -789,7 +575,14 @@ export function createExperience(canvas, state, onReady, onFailure) {
         ).forEach((m) => allMaterials.add(m));
     });
     geometries.forEach((g) => g.dispose());
-    allMaterials.forEach((m) => m.dispose());
+    const textures = new Set();
+    allMaterials.forEach((m) => {
+      Object.values(m).forEach((value) => {
+        if (value?.isTexture) textures.add(value);
+      });
+      m.dispose();
+    });
+    textures.forEach((texture) => texture.dispose());
     environment.dispose();
     renderer.dispose();
   };
