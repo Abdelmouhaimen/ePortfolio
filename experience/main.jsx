@@ -1012,7 +1012,7 @@ function App() {
           </p>
           <a
             className="button button-white"
-            href="mailto:abdo-sarhane@hotmail.com"
+            href="mailto:abdo.sarhane@gmail.com"
           >
             Start a conversation <Arrow diagonal />
           </a>
