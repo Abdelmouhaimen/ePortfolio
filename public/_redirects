@@ -1,5 +1,5 @@
-/legacy /legacy/ 301
-/legacy/* /legacy/index.html 200
+/legacy / 301!
+/legacy/* / 301!
 /project /#work 301
 /about /#about 301
 /education /#experience 301

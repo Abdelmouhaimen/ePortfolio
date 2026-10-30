@@ -28,7 +28,7 @@ npm test
 - `/?project=manysight` — directly open a case study.
 - `/?filter=Agents#work` — filtered project library.
 - `/files/Abdelmouhaimen-Sarhane-CV.pdf` — user-approved current CV.
-- `/legacy/` — original portfolio, including its project, about, education, and resume pages.
+- `/legacy/*` — redirects to the current homepage; the original site is no longer published.
 
 The original source and assets remain in `src/`. Its pre-redesign commit is preserved on `archive/pre-redesign-2026-10-30`; the old package manifest and lockfile are also retained in `legacy/`. Compatibility changes to the original are limited to its routing base, home link, and three pre-existing CSS syntax errors.
 
@@ -41,11 +41,11 @@ The original source and assets remain in `src/`. Its pre-redesign commit is pres
 - `docs/DESIGN.md` — art direction, content safeguards, and interaction design.
 - `docs/RESEARCH.md` — portfolio/UI guidance consulted before implementation and installed skills.
 
-No remote 3D model, microphone access, server account, or tracking script is needed. Fonts are bundled locally. The canvas has a static fallback; content and projects remain available when WebGL fails. OS reduced motion and the persistent motion control disable autonomous animation, mouse parallax, and smooth scrolling. The renderer pauses outside the journey and stops redrawing static paused frames.
+No remote 3D model, microphone access, server account, or tracking script is needed. Fonts are bundled locally. The canvas has a static fallback; content and projects remain available when WebGL fails. Animations run automatically with no playback button. OS reduced motion disables autonomous animation, mouse parallax, and smooth scrolling. Old saved playback overrides are ignored. The renderer pauses outside the journey and stops redrawing static paused frames.
 
 ## Deploy
 
-The existing domain is hosted on Netlify. The tracked `netlify.toml` builds with `npm run build` and publishes `dist/`. `public/_redirects` preserves the original site under `/legacy/*` and redirects old root-level portfolio routes to their new equivalents. No hosting account or audience is changed by this repository configuration.
+The existing domain is hosted on Netlify. The tracked `netlify.toml` builds with `npm run build` and publishes `dist/`. `public/_redirects` redirects `/legacy/*` to the homepage and old root-level portfolio routes to their new equivalents. The archived site and portrait are excluded from the production build. No hosting account or audience is changed by this repository configuration.
 
 Source synchronization uses the existing SSH remote:
 

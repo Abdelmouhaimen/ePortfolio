@@ -12,7 +12,7 @@ Their research concerns UX hiring, not a controlled study of engineering portfol
 
 [W3C — Understanding SC 2.3.3: Animation from Interactions](https://www.w3.org/WAI/WCAG21/Understanding/animation-from-interactions.html)
 
-Nonessential motion can be disabled. This site respects `prefers-reduced-motion`, includes a global motion control, freezes autonomous movement and cursor parallax, and removes smooth scrolling when motion is off. Scroll still selects the illustrative chapter without an animated transition.
+Nonessential motion can be disabled. This site respects `prefers-reduced-motion`, animates by default without playback controls (per the later user request), freezes autonomous movement and cursor parallax, and removes smooth scrolling when motion is off. Scroll still selects the illustrative chapter without an animated transition.
 
 [Vercel — Web Interface Guidelines](https://github.com/vercel-labs/web-interface-guidelines/blob/main/command.md)
 

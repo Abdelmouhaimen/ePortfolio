@@ -2019,9 +2019,7 @@ section[id] {
   .main-nav > a {
     font-size: 9px;
   }
-  .main-nav > a:last-child {
-    display: none;
-  }
+
   .contact-pill {
     font-size: 9px;
   }
@@ -2878,5 +2876,32 @@ html[data-motion="off"] *:after {
   *:after {
     animation: none !important;
     transition: none !important;
+  }
+}
+
+/* The About section uses an editorial layout without a portrait. */
+.about-top {
+  display: block;
+}
+.about-copy {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 10%;
+}
+.about-copy > .eyebrow {
+  grid-column: 1 / -1;
+}
+.about-copy > h2 {
+  grid-column: 1;
+  grid-row: 2 / 7;
+}
+.about-copy > p:not(.eyebrow),
+.about-copy > .about-links {
+  grid-column: 2;
+  max-width: none;
+}
+@media (max-width: 759px) {
+  .about-copy {
+    display: block;
   }
 }

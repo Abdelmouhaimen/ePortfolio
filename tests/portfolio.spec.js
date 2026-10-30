@@ -76,15 +76,25 @@ test("drone controls, project filtering, deep links, and keyboard dialogs work",
   ).toHaveAttribute("href", "https://doi.org/10.1109/ICT4S64576.2024.00020");
 });
 
-test("motion preference persists and WebGL failure preserves useful content", async ({
+test("animation starts automatically and WebGL failure preserves useful content", async ({
   page,
 }) => {
-  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.addInitScript(() =>
+    localStorage.setItem("portfolio-motion", "off"),
+  );
   await page.goto("/");
-  await expect(page.locator("html")).toHaveAttribute("data-motion", "off");
-  await page.getByRole("button", { name: "Enable animations" }).click();
-  await page.reload();
+  await expect(page.locator(".scene--ready")).toBeVisible();
   await expect(page.locator("html")).toHaveAttribute("data-motion", "on");
+  await expect(page.getByRole("button", { name: /animations/i })).toHaveCount(
+    0,
+  );
+  const before = await page.locator("canvas").screenshot();
+  await page.waitForTimeout(250);
+  const after = await page.locator("canvas").screenshot();
+  expect(before.equals(after)).toBe(false);
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(page.locator("html")).toHaveAttribute("data-motion", "off");
   await page.addInitScript(() => {
     const original = HTMLCanvasElement.prototype.getContext;
     HTMLCanvasElement.prototype.getContext = function (type, ...args) {
@@ -161,22 +171,23 @@ test("homepage and project dialog pass WCAG A/AA automated checks", async ({
   ).toEqual([]);
 });
 
-test("original portfolio and its project and education routes remain available", async ({
+test("portrait and legacy site are absent from the public experience", async ({
   page,
 }) => {
-  const errors = [];
-  page.on("pageerror", (error) => errors.push(error.message));
-  await page.goto("/legacy/");
-  await expect(page.getByText("LET ME").first()).toBeVisible({
-    timeout: 15000,
-  });
-  await page.goto("/legacy/project");
+  await page.goto("/#about");
+  await expect(page.locator(".about-image")).toHaveCount(0);
   await expect(
-    page.getByText("Compressed Sensing-Based Smart Camera", { exact: true }),
-  ).toBeVisible();
-  await page.goto("/legacy/education");
-  await expect(
-    page.getByText("GET-OMP, CNRS, France", { exact: true }),
-  ).toBeVisible();
-  expect(errors).toEqual([]);
+    page.getByRole("img", { name: "Abdelmouhaimen Sarhane" }),
+  ).toHaveCount(0);
+  await expect(page.locator('a[href*="legacy"]')).toHaveCount(0);
+  for (const path of [
+    "/legacy",
+    "/legacy/project",
+    "/legacy/education",
+    "/legacy/index.html",
+  ]) {
+    const response = await page.request.get(path, { maxRedirects: 0 });
+    expect(response.status()).toBe(301);
+    expect(response.headers().location).toBe("/");
+  }
 });

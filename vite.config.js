@@ -1,44 +1,26 @@
-import { defineConfig, transformWithOxc } from "vite";
+import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import { fileURLToPath } from "node:url";
+
+function hideLegacy(req, res, next) {
+  if (/^\/legacy(?:\/|\?|$)/.test(req.url)) {
+    res.writeHead(301, { Location: "/" });
+    res.end();
+    return;
+  }
+  next();
+}
 
 export default defineConfig({
   plugins: [
+    react(),
     {
-      name: "original-portfolio-jsx",
-      enforce: "pre",
-      async transform(code, id) {
-        if (/\/src\/.*\.js$/.test(id)) {
-          return transformWithOxc(code, id, {
-            lang: "jsx",
-            jsx: { runtime: "automatic" },
-          });
-        }
-      },
+      name: "hide-archived-portfolio",
       configureServer(server) {
-        server.middlewares.use((req, _res, next) => {
-          if (/^\/legacy(?:\/[^.?]+)*\/?(?:\?.*)?$/.test(req.url))
-            req.url = "/legacy/index.html";
-          next();
-        });
+        server.middlewares.use(hideLegacy);
       },
       configurePreviewServer(server) {
-        server.middlewares.use((req, _res, next) => {
-          if (/^\/legacy(?:\/[^.?]+)*\/?(?:\?.*)?$/.test(req.url))
-            req.url = "/legacy/index.html";
-          next();
-        });
+        server.middlewares.use(hideLegacy);
       },
     },
-    react(),
   ],
-  optimizeDeps: { rolldownOptions: { moduleTypes: { ".js": "jsx" } } },
-  build: {
-    rollupOptions: {
-      input: {
-        main: fileURLToPath(new URL("./index.html", import.meta.url)),
-        legacy: fileURLToPath(new URL("./legacy/index.html", import.meta.url)),
-      },
-    },
-  },
 });

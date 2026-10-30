@@ -26,12 +26,12 @@ One WebGL renderer and one scroll-driven scene connect all five chapters. The vi
 
 - Explorers: scroll through the 3D story, then open case studies.
 - Recruiters: use Selected work, Experience, About, or the current CV without traversing all chapters.
-- Returning visitors: the complete original site remains at `/legacy/`.
+- The original source is preserved in Git; `/legacy/*` redirects to the current homepage and is not published.
 - Project filters and case-study selection are reflected in URL query parameters.
 
 ## Practical requirements
 
-- Respect OS reduced motion and a persistent, visible motion toggle.
+- Animate automatically with no playback control; respect OS reduced motion and ignore the retired saved playback override.
 - Paused scenes render only when their state or size changes.
 - Stop rendering when the journey is outside the viewport or the document is hidden.
 - Cap drawing resolution, instance repeated nodes and waveform bars, and lazy-load Three.js.
@@ -44,3 +44,7 @@ One WebGL renderer and one scroll-driven scene connect all five chapters. The vi
 The current user-verified CV (approved 2026-10-16) supersedes older context that lacked confirmed employers. Renault / Ampere is the host for the pedestrian-perception research. Parrot has its own experience entry. The ICT4S author order is Martel, Picard, Sarhane. Do not claim MVA graduation, an overall GPA, customer traction, or protocol-independent model accuracy.
 
 All original project source, assets, and historical material remain in `src/`; the new experience lives in `experience/`. The original Git commit is also preserved on `archive/pre-redesign-2026-10-30`.
+
+## User revision — 30 October 2026
+
+Remove the portrait entirely. Reflow About into an editorial text layout. Remove every original-site link, exclude its HTML and assets from production, and redirect all legacy paths to the homepage. The original source remains preserved in Git.

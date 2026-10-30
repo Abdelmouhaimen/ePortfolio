@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import { chapters, projects, experience, skillGroups } from "./data";
-import portrait from "../src/Assets/homePicture.png";
 import "./style.css";
 
 const Arrow = ({ diagonal = false }) => (
@@ -59,41 +58,23 @@ const External = ({ href, children, className = "" }) => (
 );
 
 function useMotionPreference() {
-  const [reduced, setReduced] = useState(() => {
-    try {
-      const value = localStorage.getItem("portfolio-motion");
-      if (value) return value === "off";
-    } catch {
-      /* Storage may be disabled. */
-    }
-    return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  });
+  const [reduced, setReduced] = useState(
+    () => window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+  );
   useEffect(() => {
+    // Retire the old playback override; animation now starts automatically.
+    try {
+      localStorage.removeItem("portfolio-motion");
+    } catch {}
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const change = (event) => {
-      try {
-        if (localStorage.getItem("portfolio-motion")) return;
-      } catch {
-        /* Use OS preference. */
-      }
-      setReduced(event.matches);
-    };
+    const change = (event) => setReduced(event.matches);
     media.addEventListener("change", change);
     return () => media.removeEventListener("change", change);
   }, []);
   useEffect(() => {
     document.documentElement.dataset.motion = reduced ? "off" : "on";
   }, [reduced]);
-  const toggle = () =>
-    setReduced((previous) => {
-      try {
-        localStorage.setItem("portfolio-motion", previous ? "on" : "off");
-      } catch {
-        /* In-memory preference still works. */
-      }
-      return !previous;
-    });
-  return [reduced, toggle];
+  return reduced;
 }
 
 function Scene({ state }) {
@@ -308,7 +289,7 @@ function ProjectDialog({ project, onClose }) {
 }
 
 function App() {
-  const [reduced, toggleMotion] = useMotionPreference();
+  const reduced = useMotionPreference();
   const [menu, setMenu] = useState(false);
   const [activeChapter, setActiveChapter] = useState(0);
   const [exploded, setExploded] = useState(null);
@@ -495,22 +476,8 @@ function App() {
           <a href="#about" onClick={navigate}>
             About
           </a>
-          <a href="/legacy/" onClick={navigate}>
-            Original site <Arrow diagonal />
-          </a>
         </nav>
         <div className="header-actions">
-          <button
-            className="motion-toggle"
-            onClick={toggleMotion}
-            aria-pressed={!reduced}
-            aria-label={reduced ? "Enable animations" : "Pause animations"}
-          >
-            <span aria-hidden="true">{reduced ? "▷" : "Ⅱ"}</span>
-            <span className="motion-label">
-              Motion {reduced ? "off" : "on"}
-            </span>
-          </button>
           <a className="contact-pill" href="#contact">
             Let’s talk <Arrow diagonal />
           </a>
@@ -916,21 +883,6 @@ function App() {
           aria-labelledby="about-title"
         >
           <div className="about-top">
-            <div className="about-image">
-              <img
-                src={portrait}
-                alt="Abdelmouhaimen Sarhane"
-                width="600"
-                height="700"
-                loading="lazy"
-              />
-              <div className="portrait-caption">
-                <span>ABDELMOUHAIMEN SARHANE</span>
-                <span>ENGINEER. BUILDER. CURIOUS HUMAN.</span>
-              </div>
-              <span className="image-corner tl" />
-              <span className="image-corner br" />
-            </div>
             <div className="about-copy">
               <p className="eyebrow">
                 <span className="tiny-cross">✳</span> THE PERSON BEHIND THE
@@ -1004,9 +956,6 @@ function App() {
           <div className="personal-note">
             <span className="eyebrow">AWAY FROM THE TERMINAL</span>
             <p>Travel, games, science, and the next thing to figure out.</p>
-            <a href="/legacy/">
-              Visit the original portfolio <Arrow diagonal />
-            </a>
           </div>
         </section>
 
@@ -1055,9 +1004,6 @@ function App() {
           <Mark /> Abdelmouhaimen Sarhane
         </a>
         <span>PARIS, FRANCE · © {new Date().getFullYear()}</span>
-        <a href="/legacy/">
-          Original portfolio <Arrow diagonal />
-        </a>
         <a href="#intro">Back to the top ↑</a>
       </footer>
       <ProjectDialog project={selected} onClose={closeProject} />
