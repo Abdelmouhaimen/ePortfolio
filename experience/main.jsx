@@ -543,33 +543,6 @@ function App() {
               <span>+ 48.8566° N</span>
               <span>02.3522° E +</span>
             </div>
-            <div className="scene-caption">
-              <span className="cross-icon">+</span>
-              <div>
-                <span className="eyebrow">
-                  {
-                    [
-                      "CONCEPT / AUTONOMOUS PERCEPTION",
-                      "ASSEMBLY / PERCEPTION STACK",
-                      "SCENE / SHARED SPATIAL STATE",
-                      "MODEL / CONNECTED REPRESENTATIONS",
-                      "SIGNAL / CONVERSATION TO ACTION",
-                    ][activeChapter]
-                  }
-                </span>
-                <span className="caption-sub">
-                  {
-                    [
-                      "A study in seeing the world differently.",
-                      "Separate the layers. Understand the system.",
-                      "An illustrative multi-camera environment.",
-                      "A visual metaphor for learning.",
-                      "An illustrative voice signal. No microphone needed.",
-                    ][activeChapter]
-                  }
-                </span>
-              </div>
-            </div>
             <nav className="chapter-nav" aria-label="Explore the 3D chapters">
               {chapters.map((chapter, index) => (
                 <a
