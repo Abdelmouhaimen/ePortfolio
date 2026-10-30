@@ -1,1 +1,7 @@
+/legacy /legacy/ 301
+/legacy/* /legacy/index.html 200
+/project /#work 301
+/about /#about 301
+/education /#experience 301
+/resume /files/Abdelmouhaimen-Sarhane-CV.pdf 302
 /* /index.html 200

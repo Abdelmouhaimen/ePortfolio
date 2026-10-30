@@ -1,61 +1,59 @@
-<h2 align="center">
-  Portfolio Website<br/>
-  <a href="https://sarhane.com/" target="_blank">sarhane.com</a>
-</h2>
-<div align="center">
-  <img alt="Demo" src="./Images/readme-img1.png" />
-</div>
+# Abdelmouhaimen Sarhane — interactive portfolio
 
-<br/>
+A continuous 3D field guide to computer vision, physical AI, spatial intelligence, machine learning, and voice agents. Blue / white / hot-pink art direction, custom geometry, GLSL shaders, scroll-driven scenes, and an editorial project library.
 
+## Run
 
+Requires Node.js 22.12+ (Node 24 recommended).
 
-## TL;DR
+```sh
+npm ci
+npm run dev
+```
 
-You can fork this repo to modify and make changes of your own. Please give the owner proper credit by linking back to [Soumyajit4419](https://github.com/soumyajit4419/Portfolio). Thanks!
+```sh
+npm run build
+npm run preview
+npm test
+```
 
-## Built With
+`npm test` runs Playwright browser and axe accessibility checks against the production build. Run `npm run build` first. Tests use installed Google Chrome on Windows when available; otherwise install Playwright Chromium with `npx playwright install chromium`. Set `CHROME_PATH` for another local Chrome executable.
 
-My personal portfolio <a href="https://sarhane.com/" target="_blank">sarhane.com</a> which features some of my github projects as well as my resume and technical skills.<br/>
+## Site structure
 
-This project was built using these technologies.
+- `/` — new interactive experience.
+- `/#work` — four featured case studies and the complete project library.
+- `/#experience` — experience and education.
+- `/#about` — personal story, skills, and publication.
+- `/?project=manysight` — directly open a case study.
+- `/?filter=Agents#work` — filtered project library.
+- `/files/Abdelmouhaimen-Sarhane-CV.pdf` — user-approved current CV.
+- `/legacy/` — original portfolio, including its project, about, education, and resume pages.
 
-- React.js
-- Node.js
-- Express.js
-- CSS3
-- VsCode
-- Netlify
+The original source and assets remain in `src/`. Its pre-redesign commit is preserved on `archive/pre-redesign-2026-10-30`; the old package manifest and lockfile are also retained in `legacy/`. Compatibility changes to the original are limited to its routing base, home link, and three pre-existing CSS syntax errors.
 
-## Features
+## Edit
 
-**📖 Multi-Page Layout**
+- `experience/data.js` — project case studies, career timeline, skill groups, and chapter copy.
+- `experience/main.jsx` — page structure, filters, accessible dialogs, motion preference, and scroll coordination.
+- `experience/scene.js` — procedural drone, exploded view, spatial scene, custom shaders, learning core, and radial voice waveform.
+- `experience/style.css` — design system and responsive layouts.
+- `docs/DESIGN.md` — art direction, content safeguards, and interaction design.
+- `docs/RESEARCH.md` — portfolio/UI guidance consulted before implementation and installed skills.
 
-**🎨 Styled with React-Bootstrap and Css with easy to customize colors**
+No remote 3D model, microphone access, server account, or tracking script is needed. Fonts are bundled locally. The canvas has a static fallback; content and projects remain available when WebGL fails. OS reduced motion and the persistent motion control disable autonomous animation, mouse parallax, and smooth scrolling. The renderer pauses outside the journey and stops redrawing static paused frames.
 
-**📱 Fully Responsive**
+## Deploy
 
-## Getting Started
+The existing domain is hosted on Netlify. The tracked `netlify.toml` builds with `npm run build` and publishes `dist/`. `public/_redirects` preserves the original site under `/legacy/*` and redirects old root-level portfolio routes to their new equivalents. No hosting account or audience is changed by this repository configuration.
 
-Clone down this repository. You will need `node.js` and `git` installed globally on your machine.
+Source synchronization uses the existing SSH remote:
 
-## 🛠 Installation and Setup Instructions
+```sh
+git remote -v
+# git@github.com:Abdelmouhaimen/ePortfolio.git
+```
 
-1. Installation: `npm install`
+## Attribution
 
-2. In the project directory, you can run: `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-The page will reload if you make edits.
-
-## Usage Instructions
-
-Open the project folder and Navigate to `/src/components/`. <br/>
-You will find all the components used and you can edit your information accordingly.
-
-### This ePortfolio was made originally by another person
-
-Check the original <a href="https://github.com/soumyajit4419/Portfolio" target="_blank">repo</a>
-
-
+The retained original portfolio was based on [Soumyajit4419/Portfolio](https://github.com/soumyajit4419/Portfolio). That attribution is preserved here and in `legacy/original-README.md`. The new experience, procedural scenes, and interface were created for this redesign. Manrope and Instrument Serif are distributed through Fontsource under their respective open font licences.
