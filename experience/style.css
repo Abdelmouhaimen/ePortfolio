@@ -2952,3 +2952,17 @@ html[data-motion="off"] *:after {
     display: block;
   }
 }
+
+/* Give the 3D renderer its own right-hand column, so objects cannot cross copy. */
+@media (min-width: 600px) {
+  .scene { left: 50%; right: 0; }
+  .chapter-copy { width: 46%; }
+  .scene-fallback { left: 10%; right: auto; top: 25%; width: 80%; height: auto; aspect-ratio: 1; }
+}
+@media (min-width: 600px) and (max-width: 759px) {
+  .chapter { align-items: center; padding: 170px 5% 150px; }
+  .chapter h1, .chapter:not(.chapter-0) h2 { font-size: 5.9vw; }
+  .chapter-description { font-size: 11px; }
+  .hero-actions { flex-wrap: wrap; gap: 12px; }
+  .chapter-tags { display: flex; }
+}

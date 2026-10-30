@@ -449,7 +449,7 @@ export function createExperience(canvas, state, onReady, onFailure) {
     const t = elapsed;
     const target = state.current.progress;
     progress = motion ? mix(progress, target, 1 - Math.exp(-dt * 9)) : target;
-    const mobile = width < 760;
+    const mobile = window.innerWidth < 600;
     const px = motion ? state.current.pointer.x : 0;
     const py = motion ? state.current.pointer.y : 0;
     camera.position.x = px * 0.15;
@@ -462,8 +462,8 @@ export function createExperience(canvas, state, onReady, onFailure) {
     atmosphereMaterial.uniforms.uPointer.value.set(px, py);
     atmosphereMaterial.uniforms.uChapter.value = progress;
     pointField.rotation.y = t * 0.015;
-    const unit = mobile ? 0.48 : Math.min(1.26, camera.aspect / 1.35);
-    const shift = mobile ? 0 : 1.65;
+    const unit = mobile ? 0.48 : Math.min(1.15, camera.aspect / 0.85);
+    const shift = 0;
     const targetPos = mobile ? [0, 1.1, 0] : [shift, 0.12, 0];
     drone.position.set(...targetPos);
     drone.position.y += Math.sin(t * 0.65) * (motion ? 0.055 : 0);
@@ -506,7 +506,7 @@ export function createExperience(canvas, state, onReady, onFailure) {
       ease(1.3, 2, progress) * (1 - ease(2.4, 2.95, progress));
     spatial.visible = spatialScale > 0.002;
     spatial.scale.setScalar(unit * spatialScale * 1.1);
-    spatial.position.set(mobile ? 0 : shift + 0.15, mobile ? 1.1 : -0.05, 0);
+    spatial.position.set(shift, mobile ? 1.1 : -0.05, 0);
     spatial.rotation.set(0.23 + py * 0.06, -0.5 + px * 0.16, 0);
     for (let i = 0; i < tracks.length; i++)
       tracks[i].position.set(
@@ -541,7 +541,8 @@ export function createExperience(canvas, state, onReady, onFailure) {
       wave.setMatrixAt(i, dummy.matrix);
     }
     wave.instanceMatrix.needsUpdate = true;
-    pointer.set(state.current.pointer.x, state.current.pointer.y);
+    const pointerClientX = (state.current.pointer.x + 1) * .5 * window.innerWidth;
+    pointer.set((pointerClientX - (window.innerWidth - width)) / width * 2 - 1, state.current.pointer.y);
     raycaster.setFromCamera(pointer, camera);
     const hovered =
       motion &&
